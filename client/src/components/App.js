@@ -33,6 +33,7 @@ const App = () => {
   return (
     <QuizProvider>
       <Router>
+        <Header />
         <Routes>
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login setAuthToken={setAuthToken} />} />
@@ -52,7 +53,6 @@ const QuizApp = () => {
 
   return (
     <div className="app">
-      <Header />
       <Main>
         {status === 'loading' && <Loader />}
         {status === 'error' && <Error />}

@@ -26,112 +26,57 @@ const Register = () => {
         }
     };
 
-    const formStyle = {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '20px',
-        boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
-        backgroundColor: '#fff',
-        borderRadius: '8px',
-    };
-
-    const inputStyle = {
-        marginBottom: '10px',
-        padding: '10px',
-        width: '80%',
-        maxWidth: '400px',
-        fontSize: '16px',
-        border: '1px solid #ccc',
-        borderRadius: '5px',
-    };
-
-    const buttonStyle = {
-        padding: '10px 20px',
-        fontSize: '16px',
-        color: '#fff',
-        backgroundColor: '#007bff',
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer',
-    };
-
-    const messageStyle = {
-        color: success ? 'green' : 'red',
-        marginBottom: '10px',
-    };
-
-    const containerStyle = {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-        backgroundColor: '#f0f0f0',
-        padding: '20px',
-    };
-
-    const headerStyle = {
-        marginBottom: '20px',
-        fontSize: '32px',
-        fontWeight: 'bold',
-        color: '#333',
-    };
-
-    const subHeaderStyle = {
-        marginBottom: '20px',
-        fontSize: '18px',
-        color: '#666',
-        textAlign: 'center',
-        maxWidth: '600px',
+    const handleGoToLogin = () => {
+        navigate('/login');
     };
 
     return (
-        <div style={containerStyle}>
-            <h1 style={headerStyle}>Welcome to the Quiz App</h1>
-            <p style={subHeaderStyle}>
+        <div className="form-container">
+            <h1 className="header-title">Welcome to the Quiz App</h1>
+            <p className="header-subtitle">
                 Join our community of learners and test your knowledge with our fun and engaging quizzes.
                 Registering is quick and easy, and it gives you access to track your progress and compete with friends.
             </p>
-            <div style={formStyle}>
+            <div className="form-card">
                 {success ? (
-                    <div style={messageStyle}>Registration successful! Redirecting to login...</div>
+                    <div className="form-message" style={{ color: 'green' }}>Registration successful! Redirecting to login...</div>
                 ) : (
                     <form onSubmit={handleSubmit}>
                         <h2>Register</h2>
-                        {error && <div style={messageStyle}>{error}</div>}
+                        {error && <div className="form-message">{error}</div>}
                         <input
                             type="text"
                             placeholder="First Name"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
-                            style={inputStyle}
+                            className="form-input"
                         />
                         <input
                             type="text"
                             placeholder="Last Name"
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
-                            style={inputStyle}
+                            className="form-input"
                         />
                         <input
                             type="email"
                             placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            style={inputStyle}
+                            className="form-input"
                         />
                         <input
                             type="password"
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            style={inputStyle}
+                            className="form-input"
                         />
-                        <button type="submit" style={buttonStyle}>Register</button>
+                        <button type="submit" className="btn">Register</button>
                     </form>
                 )}
+                <p className="switch-text">If you already have an account, you can</p>
+                <button onClick={handleGoToLogin} className="btn">Go to Login</button>
             </div>
         </div>
     );

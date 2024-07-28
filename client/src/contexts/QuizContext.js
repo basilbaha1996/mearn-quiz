@@ -102,6 +102,10 @@ function reducer(state, action) {
         ...state,
         ...action.payload,
       };
+    case 'logout':
+      sessionStorage.removeItem('user');
+      sessionStorage.removeItem('quizState');
+      return { ...initialState };
     default:
       throw new Error('Unknown action type');
   }

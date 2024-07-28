@@ -10,7 +10,7 @@ const Login = ({ setAuthToken }) => {
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const { fetchQuestions } = useQuiz();
+    const { fetchQuestions, dispatch } = useQuiz();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,6 +25,7 @@ const Login = ({ setAuthToken }) => {
                 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
                 await fetchQuestions();
                 setSuccess(true);
+                dispatch({ type: 'setUser', payload: res.data.user }); // Set user data in context
                 setLoading(false);
                 setTimeout(() => navigate('/quiz'), 1000);
             } else {
@@ -36,71 +37,43 @@ const Login = ({ setAuthToken }) => {
         }
     };
 
+    const handleGoToRegister = () => {
+        navigate('/register');
+    };
+
     return (
-        <form onSubmit={handleSubmit} style={formStyle}>
-            <h2>Login</h2>
-            {error && <div style={messageStyle}>{error}</div>}
-            {loading ? (
-                <div>Loading...</div>
-            ) : success ? (
-                <div>Login successful! Redirecting...</div>
-            ) : (
-                <>
-                    <input
-                        type='email'
-                        placeholder='Email'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        style={inputStyle}
-                    />
-                    <input
-                        type='password'
-                        placeholder='Password'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        style={inputStyle}
-                    />
-                    <button type='submit' style={buttonStyle}>Login</button>
-                </>
-            )}
-        </form>
+        <div className="form-container">
+            <div className="form-card">
+                <h2>Login</h2>
+                {error && <div className="form-message">{error}</div>}
+                {loading ? (
+                    <div>Loading...</div>
+                ) : success ? (
+                    <div className="form-message" style={{ color: 'green' }}>Login successful! Redirecting...</div>
+                ) : (
+                    <form onSubmit={handleSubmit}>
+                        <input
+                            type='email'
+                            placeholder='Email'
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="form-input"
+                        />
+                        <input
+                            type='password'
+                            placeholder='Password'
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="form-input"
+                        />
+                        <button type='submit' className="btn">Login</button>
+                    </form>
+                )}
+                <p className="switch-text">If you don't have an account, you can</p>
+                <button onClick={handleGoToRegister} className="btn">Go to Register</button>
+            </div>
+        </div>
     );
-};
-
-const formStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100vh',
-    backgroundColor: '#f5f5f5',
-    padding: '20px',
-    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
-};
-
-const inputStyle = {
-    marginBottom: '10px',
-    padding: '10px',
-    width: '80%',
-    maxWidth: '400px',
-    fontSize: '16px',
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-};
-
-const buttonStyle = {
-    padding: '10px 20px',
-    fontSize: '16px',
-    color: '#fff',
-    backgroundColor: '#007bff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-};
-
-const messageStyle = {
-    color: 'red',
-    marginBottom: '10px',
 };
 
 export default Login;
